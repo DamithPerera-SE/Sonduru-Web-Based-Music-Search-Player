@@ -1,73 +1,72 @@
-import React, { useState } from 'react';
-import MusicPlayer from './MusicPlayer';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function MusicSearch() {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [songs, setSongs] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(-1);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSearch = async () => {
-    if (!query) return;
+    if (!query.trim()) return;
+
+    setLoading(true);
     try {
-      const res = await fetch(`http://127.0.0.1:5000/api/music/search?query=${query}`);
+      const res = await fetch(
+        `http://127.0.0.1:5000/api/music/search?query=${query}`
+      );
       const data = await res.json();
-      setSongs(data.results);
-      setCurrentIndex(-1); // Reset current song
+      setSongs(data.results || []);
     } catch (err) {
-      console.error(err);
-      alert("Error fetching songs");
+      console.error("Search error:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const playNext = () => {
-    if (currentIndex < songs.length - 1) setCurrentIndex(currentIndex + 1);
-  };
-
-  const playPrev = () => {
-    if (currentIndex > 0) setCurrentIndex(currentIndex - 1);
+  const playSong = (index) => {
+    navigate("/player", {
+      state: {
+        songs,
+        index
+      }
+    });
   };
 
   return (
     <div>
-      {/* Search Box */}
+      {/* Search Bar */}
       <div className="input-group mb-4">
         <input
-          type="text"
           className="form-control"
-          placeholder="Search for a song..."
+          placeholder="Search song..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
         />
         <button className="btn btn-primary" onClick={handleSearch}>
           Search
         </button>
       </div>
 
-      {/* Songs List */}
-      <div className="list-group mb-5">
+      {loading && <p className="text-center">Searching...</p>}
+
+      {/* Song List */}
+      <div className="list-group">
         {songs.map((song, index) => (
           <button
-            key={song.id}
-            className={`list-group-item list-group-item-action d-flex justify-content-between align-items-center ${currentIndex === index ? 'active' : ''}`}
-            onClick={() => setCurrentIndex(index)}
+            key={song.id || index}
+            className="list-group-item list-group-item-action"
+            onClick={() => playSong(index)}
           >
-            <div>
-              <strong>{song.name}</strong> <br />
-              <small>{song.artist_name} - {song.album_name}</small>
-            </div>
+            <strong>{song.name}</strong>
+            <br />
+            <small>
+              {song.artist_name} – {song.album_name}
+            </small>
           </button>
         ))}
       </div>
-
-      {/* Music Player */}
-      {currentIndex >= 0 && (
-        <MusicPlayer
-          song={songs[currentIndex]}
-          playNext={playNext}
-          playPrev={playPrev}
-        />
-      )}
     </div>
   );
 }
