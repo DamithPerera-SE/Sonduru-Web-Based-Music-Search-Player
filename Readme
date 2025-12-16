@@ -1,0 +1,38 @@
+Sonduru (සොඳුරු) – Web-Based Music Search & Player
+
+Sonduru (සොඳුරු) is a modern web-based music search and player application that allows users to discover, play, and manage music effortlessly. Inspired by the Sinhala word for “beautiful,” this app brings a beautiful music experience to users in Sri Lanka and beyond.
+
+Features
+🎵 Music Playback
+
+Play, pause, and stop songs
+
+Next / Previous track control
+
+Volume adjustment and seek bar
+
+🔍 Music Search
+
+Search songs by title, artist, or album
+
+Supports Jamendo API (free music)
+
+Optional integration with Spotify API
+
+📂 Playlists & Favorites
+
+Create, edit, and delete playlists
+
+Add songs to playlists or favorites
+
+👤 User Management
+
+Sign up / Login
+
+Personalize playlists and favorite tracks
+
+🌐 Responsive Web UI
+
+Built with React JS, Bootstrap, HTML, CSS
+
+Smooth and user-friendly interface
