@@ -1,0 +1,15 @@
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    font-family: "Poppins", sans-serif;
+  }
+  
+  .song-card {
+    border-radius: 16px;
+  }
+  
+  .player-card {
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    border-radius: 20px;
+  }
+  
