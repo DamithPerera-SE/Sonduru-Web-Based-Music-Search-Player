@@ -1,8 +1,9 @@
+
 import React, { useState } from "react";
-import { searchSongs } from "../services/api";
+import { searchSongs } from "../api";
 import SearchBar from "../components/SearchBar";
-import SongCard from "../components/SongCard";
-import Player from "../components/Player";
+import SongCard from "../components/Card";
+import Player from "../components/MusicPlayer";
 
 export default function Home() {
   const [query, setQuery] = useState("");
@@ -32,7 +33,12 @@ export default function Home() {
 
   return (
     <div className="container py-4">
-      <SearchBar query={query} setQuery={setQuery} onSearch={handleSearch} />
+      <SearchBar
+        query={query}
+        setQuery={setQuery}
+        onSearch={handleSearch}
+      />
+
       <div className="row">
         {songs.map((song) => (
           <div className="col-md-6 mb-3" key={song.id}>
@@ -40,7 +46,12 @@ export default function Home() {
           </div>
         ))}
       </div>
-      <Player song={currentSong} isPlaying={isPlaying} onToggle={togglePlay} />
+
+      <Player
+        song={currentSong}
+        isPlaying={isPlaying}
+        onToggle={togglePlay}
+      />
     </div>
   );
 }
